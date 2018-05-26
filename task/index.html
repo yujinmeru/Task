@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="task">
+            <span id="task-a"></span>
+            <span> + </span>
+            <span id="task-b"></span>
+            <span> = </span>
+            <span id="task-summ"></span>
+            <input id="input-summ" type="text" size="2" maxlength="2" class="input">
+        </div>
+        <div class="axis">
+            <div id="canvas">
+                <svg id="arrows"></svg>
+                <input id="input-a" type="text" size="1" maxlength="1" class="input">
+                <input id="input-b" type="text" size="1" maxlength="1" class="input">    
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+    var a, b, sum, step = 39;
+    
+
+    $(document).ready(function() {
+        start();
+    });
+
+    function start() {
+        a = getRandomInt(6, 9);
+        
+        sum = getRandomInt(11, 14);
+        b = sum - a;
+
+        var aLeft = (a * step) / 2 - ($('#input-a').width()) / 2;
+        var bLeft = a * step + (b * step) / 2 - ($('#input-a').width()) / 2;
+        var aHeight = 100 - (a * step) / 3;
+        var bHeight = 100 - (b * step) / 3;
+        var arrow = makeSVG('path', {d: getArrowD(0, a), stroke: 'red', 'stroke-width': 2, fill: 'transparent'});
+
+        $('#input-summ').hide();
+        $('#task-a').html(a);
+        $('#task-b').html(b);
+        $('#task-summ').html('?');
+        $('#input-a').css({'left': aLeft, 'top': aHeight});
+        $('#input-b').css({'left': bLeft, 'top': bHeight}).hide();
+        $('#arrows').append(arrow);
+    }
+
+    $('#input-a').keyup(function(){
+        if($(this).val() == a){
+            var arrow = makeSVG('path', {d: getArrowD(a, sum), stroke: 'red', 'stroke-width': 2, fill: 'transparent'});
+
+            $(this).removeClass('red').prop('readonly', true);
+            $('#task-a').removeClass('orange');
+            $('#input-b').show().focus();
+            $('#arrows').append(arrow);
+        }
+        else{
+            $(this).addClass('red');
+            $('#task-a').addClass('orange');
+        }
+    });
+
+    $('#input-b').keyup(function(){
+        if($(this).val() == b){
+            $(this).removeClass('red').prop('readonly', true);
+            $('#task-b').removeClass('orange');
+            $('#task-summ').hide();
+            $('#input-summ').show().focus();
+        }
+        else{
+            $(this).addClass('red');
+            $('#task-b').addClass('orange');
+        }
+    });
+
+    $('#input-summ').keyup(function(){
+        if($(this).val() == sum){
+            $(this).removeClass('red').hide();
+            $('#task-summ').html(sum).show();
+        }
+        else{
+            $(this).addClass('red');
+        }
+    });
+
+
+
+    $('.input').keydown(function(e){
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 116) {
+            e.preventDefault();
+        }
+    });
+
+    function getRandomInt(min, max) {
+      return Math.round(Math.random() * (max - min)) + min;
+    }
+
+    function getArrowD(start,end){
+        start = start * step + 1;
+        end = end * step - 1;
+
+        var length = end - start;
+        var height = 100 - length / 3;
+
+        var arrow = 'M' + start + ',100 ' 
+                    + 'C ' + (start + length * 0.25) + ',' + height + ' ' + (end - length * 0.25) + ',' + height + ' ' + end + ',100 '
+                    + 'L ' + (end - 12) + ' 93 L ' + end + ' 100 '
+                    + 'L ' + (end - 4) + ' 87';
+
+        return arrow;
+    }
+
+    function makeSVG(tag, attrs) {
+        var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+
+        for (var k in attrs)
+            el.setAttribute(k, attrs[k]);
+        return el;
+    }
+</script>
+</html>

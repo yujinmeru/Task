@@ -1,0 +1,75 @@
+*{box-sizing: border-box;}
+body{
+	font-family: sans-serif;
+	font-size: 100%;
+}
+.orange{background-color: #FC3;}
+.red{color: #F00;}
+
+
+.wrapper{
+	margin: 0 auto; 
+	width: 875px;
+}
+.task{
+	height: 3em;
+	margin: 4em 0; 
+	text-align: center;
+}
+.task span{
+	display: inline-block;
+	font-size: 2em;
+	line-height: 1.5em;
+	height: 1.5em;
+}
+.task .input{
+	line-height: 1.5em;
+	height: 1.5em;
+}
+.input{
+	border: 3px solid #FC3;
+	border-radius: 8px;
+	font-family: sans-serif;
+	line-height: 1.2em;
+	outline: none;
+	padding: 0.1em 0;
+	text-align: center;
+}
+.input[readonly]{
+	border-color: transparent;
+}
+#input-summ{
+	display: none;
+	font-size: 2em;
+	width: 2.3em;
+}
+.axis{
+	background: url('sprite.png') bottom center no-repeat; 
+	height: 200px;
+}
+
+#canvas{
+	margin: 0 60px 0 35px;
+	height: 137px;
+	position: relative;
+}
+#arrows{
+	bottom: 0;
+	height: 102px;
+	position: absolute;
+	right: 0;
+	width: 100%;
+}
+#input-a, #input-b{
+	display: block;
+	font-size: 1.5em;
+	position: absolute;
+	width: 1.75em;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
